@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -29,9 +30,12 @@ public class TC001 {
         // Request
         Response response =  given().contentType(ContentType.JSON)
                .body(requestBody).log().all().post();
-
+        System.out.println(response.statusCode());
+        Assert.assertEquals(response.statusCode(),200,"Status code is not 200");
         token =  response.then().extract().path("token");
        response.prettyPrint();
+
+
 
     }
 
