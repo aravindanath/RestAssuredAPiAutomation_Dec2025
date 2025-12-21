@@ -41,28 +41,32 @@ public class AssignmentTC001 {
     @Test(description = "Add Contacts Request", dependsOnMethods = {"loginRequest"})
     public void addContactsRequest() {
 
-        RestAssured.baseURI = Contants.BASE_URL;
-        RestAssured.basePath = Contants.contacts;
+        for(int i=0;i<5;i++) {
 
-        HashMap<String, String> path = new HashMap<>();
-        path.put("firstName", "Sakshi");
-        path.put("lastName", "Mishra");
-        path.put("email", "as@test.com");
-        path.put("phone", "1234567890");
-        path.put("street1", "123 Main St");
-        path.put("street2", "Apt 4B");
-        path.put("birthdate", "1970-01-01");
-        path.put("city", "Metropolis");
-        path.put("stateProvince", "State");
-        path.put("postalCode", "221503");
-        path.put("country", "India");
+            RestAssured.baseURI = Contants.BASE_URL;
+            RestAssured.basePath = Contants.contacts;
+
+            HashMap<String, String> path = new HashMap<>();
+            path.put("firstName", Utils.name());
+            path.put("lastName", Utils.lastname());
+            path.put("email", Utils.email());
+            path.put("phone", Utils.phone());
+            path.put("street1", Utils.street1());
+            path.put("street2", Utils.street2());
+            path.put("birthdate", Utils.birthDate());
+            path.put("city", Utils.city());
+            path.put("stateProvince", Utils.state());
+            path.put("postalCode", Utils.postalCode());
+            path.put("country", Utils.country());
 
 
-        // Request
-        Response response = given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
-                .body(path).log().all().post();
-
-        response.prettyPrint();
+            // Request
+            Response response = given().header("Authorization", "Bearer " + token).contentType(ContentType.JSON)
+                    .body(path).log().all().post();
+            response.prettyPrint();
+            System.out.println("Contact added successfully with status code: " + response.statusCode());
+            System.out.println("Count: " + (i + 1));
+        }
 
 
 
