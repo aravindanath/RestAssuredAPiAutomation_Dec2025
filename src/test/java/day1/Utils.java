@@ -2,6 +2,10 @@ package day1;
 
 import com.github.javafaker.Faker;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
 public class Utils
 {
 
@@ -64,8 +68,17 @@ public class Utils
         public static String birthDate() {
             return "1970-01-01";
         }
+
+    // Random Birthdate in yyyy-MM-dd format between 1950-01-01 and 2005-12-31
+    public static String randomBirthDate() {
+        LocalDate start = LocalDate.of(1950, 1, 1);
+        LocalDate end = LocalDate.of(2005, 12, 31);
+        long days = ChronoUnit.DAYS.between(start, end);
+        long randomDays = (long) (Math.random() * days);
+        LocalDate randomDate = start.plusDays(randomDays);
+        return randomDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+    }
+
     }
 
 // pojo what is pojo
-
-
