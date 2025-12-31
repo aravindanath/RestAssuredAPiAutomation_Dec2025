@@ -37,23 +37,18 @@ public class AssignmentTC007 {
 
     }
 
-   @Getter
-   @Setter
-    public class UpdateUserRequest {
-
-        private String firstName;
-        private String lastName;
-    }
-
     @Test(description = "PATCH Update User", dependsOnMethods = {"loginRequest"})
     public void updateUser() {
 
         RestAssured.baseURI = Contants.BASE_URL;
         RestAssured.basePath = Contants.updateUser; // "/users"
 
-        UpdateUserRequest requestBody = new UpdateUserRequest();
+        Lombok_UpdateUser requestBody = new Lombok_UpdateUser();
         requestBody.setFirstName("UpdatedFirstName");
         requestBody.setLastName("UpdatedLastName");
+        requestBody.setEmail("updated@test.com");
+        requestBody.setPassword("NewPass@123");
+
 
         Response response = given()
                 .header("Authorization", "Bearer " + token)
