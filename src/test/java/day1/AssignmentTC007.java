@@ -5,8 +5,6 @@ import groovyjarjarpicocli.CommandLine;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import lombok.Getter;
-import lombok.Setter;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -21,20 +19,19 @@ public class AssignmentTC007 {
         RestAssured.baseURI = Contants.BASE_URL;
         RestAssured.basePath = Contants.loginUser;
 
-        JsonObject requestBody = new JsonObject();
-        requestBody.addProperty("email", "stevj@test.com");
-        requestBody.addProperty("password", "Test@1234");
+        Lombok_Login requestBody = new Lombok_Login();
+        requestBody.setEmail("stevj@test.com");
+        requestBody.setPassword("Test@1234");
 
-        // Request
-        Response response =  given().contentType(ContentType.JSON)
-                .body(requestBody).log().all().post();
-        System.out.println(response.statusCode());
-        Assert.assertEquals(response.statusCode(),200,"Status code is not 200");
-        token =  response.then().extract().path("token");
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .body(requestBody)
+                .log().all()
+                .post();
+
+        Assert.assertEquals(response.getStatusCode(), 200);
+        token = response.then().extract().path("token");
         response.prettyPrint();
-
-
-
     }
 
     @Test(description = "PATCH Update User", dependsOnMethods = {"loginRequest"})
@@ -46,8 +43,8 @@ public class AssignmentTC007 {
         Lombok_UpdateUser requestBody = new Lombok_UpdateUser();
         requestBody.setFirstName("UpdatedFirstName");
         requestBody.setLastName("UpdatedLastName");
-        requestBody.setEmail("updated@test.com");
-        requestBody.setPassword("NewPass@123");
+        requestBody.setEmail("stevj@test.com");
+        requestBody.setPassword("Test@1234");
 
 
         Response response = given()
